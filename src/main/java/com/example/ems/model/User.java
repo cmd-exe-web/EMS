@@ -4,6 +4,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -17,4 +19,8 @@ public class User {
     private String name;
     private String email;
     private String password;
+    //the "user" below in mappedBy refers to the "user" variable in the Leave class
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Leave> leaves = new ArrayList<>();
+
 }
