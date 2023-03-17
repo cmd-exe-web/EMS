@@ -19,5 +19,5 @@ public interface LeaveService {
     Leave getLeaveById(long leaveId);
 
     //get all leaves by user
-    List<Leave> getLeavesByUser(long userId);
+    List<LeaveDto> getLeavesByUser(long userId);
 }

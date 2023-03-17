@@ -58,7 +58,7 @@ public class LeaveServiceImpl implements LeaveService {
     }
 
     @Override
-    public List<Leave> getLeavesByUser(long userId) {
+    public List<LeaveDto> getLeavesByUser(long userId) {
         return null;
     }
 }
