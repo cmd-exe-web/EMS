@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class LeaveServiceImpl implements LeaveService {
@@ -59,6 +60,12 @@ public class LeaveServiceImpl implements LeaveService {
 
     @Override
     public List<LeaveDto> getLeavesByUser(long userId) {
-        return null;
+        User user = userRepository.findById(userId).orElseThrow(()-> new ResourceNotFoundException("User", "id", userId));
+
+        List<Leave> leaves = leaveRepository.findByUser(user);
+
+        List<LeaveDto> leaveDtos = leaves.stream().map((leave) -> modelMapper.map(leave, LeaveDto.class)).collect(Collectors.toList());
+
+        return leaveDtos;
     }
 }

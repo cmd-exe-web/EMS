@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api")
 public class LeaveController {
@@ -21,4 +23,12 @@ public class LeaveController {
         LeaveDto newLeaveDto = leaveService.createLeave(leaveDto, userId);
         return new ResponseEntity<>(newLeaveDto, HttpStatus.CREATED);
     }
+
+    //get all leaves user id
+    @GetMapping("/user/{userId}/leaves")
+    public ResponseEntity<List<LeaveDto>> getLeavesByUser(@PathVariable long userId){
+        List<LeaveDto> leaves = leaveService.getLeavesByUser(userId);
+        return new ResponseEntity<>(leaves, HttpStatus.OK);
+    }
+
 }
