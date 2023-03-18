@@ -1,6 +1,5 @@
 package com.example.ems.controller;
 
-import com.example.ems.model.Leave;
 import com.example.ems.payload.ApiResponse;
 import com.example.ems.payload.LeaveDto;
 import com.example.ems.service.LeaveService;
@@ -48,7 +47,7 @@ public class LeaveController {
 
     //delete leave by id
     @DeleteMapping("/leaves/{leaveId}")
-    public ApiResponse deletePost(@PathVariable long leaveId){
+    public ApiResponse deleteLeave(@PathVariable long leaveId){
         leaveService.deleteLeave(leaveId);
         return new ApiResponse("Leave is succussfuly deleted", true);
     }
