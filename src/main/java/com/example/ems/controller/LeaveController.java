@@ -1,6 +1,7 @@
 package com.example.ems.controller;
 
 import com.example.ems.model.Leave;
+import com.example.ems.payload.ApiResponse;
 import com.example.ems.payload.LeaveDto;
 import com.example.ems.service.LeaveService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,4 +32,31 @@ public class LeaveController {
         return new ResponseEntity<>(leaves, HttpStatus.OK);
     }
 
+    //get all leaves
+    @GetMapping("/leaves")
+    public ResponseEntity<List<LeaveDto>> getAllLeaves(){
+        List<LeaveDto> leaveDtos = leaveService.getAllLeaves();
+        return new ResponseEntity<>(leaveDtos, HttpStatus.OK);
+    }
+
+    //get leave by leaveId
+    @GetMapping("/leaves/{leaveId}")
+    public ResponseEntity<LeaveDto> getLeaveById(@PathVariable long leaveId){
+        LeaveDto leaveDto = leaveService.getLeaveById(leaveId);
+        return new ResponseEntity<>(leaveDto, HttpStatus.OK);
+    }
+
+    //delete leave by id
+    @DeleteMapping("/leaves/{leaveId}")
+    public ApiResponse deletePost(@PathVariable long leaveId){
+        leaveService.deleteLeave(leaveId);
+        return new ApiResponse("Leave is succussfuly deleted", true);
+    }
+
+    //update leave
+    @PutMapping("/leaves/{leaveId}")
+    public  ResponseEntity<LeaveDto> updateLeave(@RequestBody LeaveDto leaveDto, @PathVariable long leaveId){
+        LeaveDto updatedLeave = leaveService.updateLeave(leaveDto, leaveId);
+        return new ResponseEntity<>(updatedLeave, HttpStatus.OK);
+    }
 }

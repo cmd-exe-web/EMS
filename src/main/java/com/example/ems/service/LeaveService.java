@@ -9,14 +9,14 @@ public interface LeaveService {
     //create
     LeaveDto createLeave(LeaveDto leaveDto, long userId);
     //update
-    Leave updateLeave(LeaveDto leaveDto, long leaveId);
+    LeaveDto updateLeave(LeaveDto leaveDto, long leaveId);
     //delete
     void deleteLeave(long leaveId);
     //get all leaves
-    List<Leave> getAllLeaves();
+    List<LeaveDto> getAllLeaves();
 
     //get leave by leave_id
-    Leave getLeaveById(long leaveId);
+    LeaveDto getLeaveById(long leaveId);
 
     //get all leaves by user
     List<LeaveDto> getLeavesByUser(long userId);

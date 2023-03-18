@@ -37,25 +37,38 @@ public class LeaveServiceImpl implements LeaveService {
 
         return modelMapper.map(newLeave, LeaveDto.class);
     }
-
+    //Only for updating the status of the leave
     @Override
-    public Leave updateLeave(LeaveDto leaveDto, long leaveId) {
-        return null;
+    public LeaveDto updateLeave(LeaveDto leaveDto, long leaveId) {
+        Leave leave = leaveRepository.findById(leaveId).orElseThrow(() -> new ResourceNotFoundException("Leave", "leaveId", leaveId));
+
+//        leave.setDate(leaveDto.getDate());
+        leave.setStatus(leaveDto.getStatus());
+
+        Leave updateLeave = leaveRepository.save(leave);
+
+        return modelMapper.map(updateLeave, LeaveDto.class);
     }
 
     @Override
     public void deleteLeave(long leaveId) {
-
+        Leave leave = leaveRepository.findById(leaveId).orElseThrow(()-> new ResourceNotFoundException("Leave", "leaveId", leaveId));
+        leaveRepository.delete(leave);
     }
 
     @Override
-    public List<Leave> getAllLeaves() {
-        return null;
+    public List<LeaveDto> getAllLeaves() {
+        List<Leave> allLeaves = leaveRepository.findAll();
+
+        List<LeaveDto> leaveDtos = allLeaves.stream().map((leave)->modelMapper.map(leave, LeaveDto.class)).collect(Collectors.toList());
+
+        return leaveDtos;
     }
 
     @Override
-    public Leave getLeaveById(long leaveId) {
-        return null;
+    public LeaveDto getLeaveById(long leaveId) {
+        Leave leave = leaveRepository.findById(leaveId).orElseThrow(()-> new ResourceNotFoundException("Leave", "leaveId", leaveId));
+        return modelMapper.map(leave, LeaveDto.class);
     }
 
     @Override

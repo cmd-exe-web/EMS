@@ -9,6 +9,7 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 public class LeaveDto {
+    private long id;
     private LocalDate date;
     private String status;
     private UserDto user;
