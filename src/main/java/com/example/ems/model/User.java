@@ -22,5 +22,7 @@ public class User {
     //the "user" below in mappedBy refers to the "user" variable in the Leave class
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Leave> leaves = new ArrayList<>();
-
+    //the user below in mappedBy refers to the "user" reference variable in the Task class
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Task> tasks = new ArrayList<>();
 }
