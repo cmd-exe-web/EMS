@@ -1,17 +1,15 @@
 package com.example.ems.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "`leave`")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
-@AllArgsConstructor
 public class Leave {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
