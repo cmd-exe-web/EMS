@@ -1,4 +1,4 @@
-package com.example.ems.security;
+package com.example.ems.payload;
 
 import lombok.Data;
 
