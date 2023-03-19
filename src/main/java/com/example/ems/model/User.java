@@ -1,5 +1,6 @@
 package com.example.ems.model;
 
+import com.example.ems.model.enums.Role;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -25,4 +26,8 @@ public class User {
     //the user below in mappedBy refers to the "user" reference variable in the Task class
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Task> tasks = new ArrayList<>();
+    private Role role;
+    @ManyToOne
+    @JoinColumn(name = "manager_id")
+    private User manager;
 }

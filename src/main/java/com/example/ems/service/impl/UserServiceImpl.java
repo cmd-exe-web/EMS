@@ -64,6 +64,23 @@ public class UserServiceImpl implements UserService {
         userRepository.delete(user);
     }
 
+    @Override
+    public UserDto assignManager(long userId, long managerId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User", "userId", userId));
+        User manager = userRepository.findById(managerId).orElseThrow(() -> new ResourceNotFoundException("Manager", "Id", managerId));
+        user.setManager(manager);
+        User savedUser = userRepository.save(user);
+        return modelMapper.map(savedUser, UserDto.class);
+    }
+
+    @Override
+    public List<UserDto> getAllUnassignedEmployees() {
+        List<User> unassignedEmployees = userRepository.findByManagerIsNull();
+        List<UserDto> employeeDtos = unassignedEmployees.stream().map((employee) -> modelMapper.map(employee, UserDto.class)).collect(Collectors.toList());
+
+        return employeeDtos;
+    }
+
     public User dtoToUser(UserDto userDto){
         User user = modelMapper.map(userDto, User.class);
 

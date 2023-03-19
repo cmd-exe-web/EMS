@@ -1,5 +1,6 @@
 package com.example.ems.payload;
 
+import com.example.ems.model.enums.Role;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -20,5 +21,7 @@ public class UserDto {
     @NotEmpty
     @Size(min = 3, max = 10, message = "Password must be min of 3 chars and max of 10 chars!")
     private String password;
+    private Role role;
+    private UserDto manager;
 
 }
