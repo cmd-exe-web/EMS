@@ -6,6 +6,7 @@ import com.example.ems.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,6 +19,7 @@ public class TaskController {
     private TaskService taskService;
 
     //create task
+    @PreAuthorize("hasRole('ROLE_MANAGER')")
     @PostMapping("/user/{userId}/tasks")
     public ResponseEntity<TaskDto> createTask(@RequestBody TaskDto taskDto, @PathVariable long userId){
         TaskDto createdTaskDto = taskService.createTask(taskDto, userId);
@@ -52,6 +54,7 @@ public class TaskController {
     }
 
     //update task
+    @PreAuthorize("hasRole('ROLE_EMPLOYEE')")
     @PutMapping("/tasks/{taskId}")
     public ResponseEntity<TaskDto> updateTask(@RequestBody TaskDto taskDto, @PathVariable long taskId){
         TaskDto updatedTask = taskService.updateTask(taskDto, taskId);

@@ -6,6 +6,7 @@ import com.example.ems.service.LeaveService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,6 +19,7 @@ public class LeaveController {
     private LeaveService leaveService;
 
     //create
+    @PreAuthorize("hasRole('ROLE_EMPLOYEE')")
     @PostMapping("/user/{userId}/leaves")
     public ResponseEntity<LeaveDto> createLeave(@RequestBody LeaveDto leaveDto, @PathVariable long userId){
         LeaveDto newLeaveDto = leaveService.createLeave(leaveDto, userId);
@@ -46,6 +48,7 @@ public class LeaveController {
     }
 
     //delete leave by id
+    @PreAuthorize("hasRole('ROLE_EMPLOYEE')")
     @DeleteMapping("/leaves/{leaveId}")
     public ApiResponse deleteLeave(@PathVariable long leaveId){
         leaveService.deleteLeave(leaveId);
@@ -53,6 +56,7 @@ public class LeaveController {
     }
 
     //update leave
+    @PreAuthorize("hasRole('ROLE_MANAGER')")
     @PutMapping("/leaves/{leaveId}")
     public  ResponseEntity<LeaveDto> updateLeave(@RequestBody LeaveDto leaveDto, @PathVariable long leaveId){
         LeaveDto updatedLeave = leaveService.updateLeave(leaveDto, leaveId);

@@ -24,6 +24,6 @@ public class EmsApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		System.out.println(passwordEncoder.encode("akash"));
+		System.out.println(passwordEncoder.encode("abhinav"));
 	}
 }
