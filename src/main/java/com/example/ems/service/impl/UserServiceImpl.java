@@ -7,6 +7,7 @@ import com.example.ems.repository.UserRepository;
 import com.example.ems.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,7 +20,21 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
     @Autowired
     private ModelMapper modelMapper;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
+    @Override
+    public UserDto registerNewUser(UserDto userDto) {
+        User user = modelMapper.map(userDto, User.class);
+        //encoding and setting the password given to us from the userDto
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        //the role is already set as user provides the roles in the request body in the userDto
+
+        //saving the new user
+        User newUser = userRepository.save(user);
+
+        return modelMapper.map(newUser, UserDto.class);
+    }
 
     @Override
     public UserDto createUser(UserDto userDto) {
