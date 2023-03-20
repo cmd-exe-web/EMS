@@ -1,5 +1,6 @@
 package com.example.ems.controller;
 
+import com.example.ems.exceptions.ApiException;
 import com.example.ems.payload.JwtAuthRequest;
 import com.example.ems.payload.JwtAuthResponse;
 import com.example.ems.security.JwtTokenHelper;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -27,7 +29,7 @@ public class AuthController {
     private AuthenticationManager authenticationManager;
 
     @PostMapping("/login")
-    public ResponseEntity<JwtAuthResponse> createToken(@RequestBody JwtAuthRequest request){
+    public ResponseEntity<JwtAuthResponse> createToken(@RequestBody JwtAuthRequest request) throws Exception {
         authenticate(request.getUsername(), request.getPassword());
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(request.getUsername());
@@ -40,10 +42,16 @@ public class AuthController {
         return  new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    private void authenticate(String username, String password) {
+    private void authenticate(String username, String password) throws Exception {
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
 
-        authenticationManager.authenticate(authenticationToken);
+        try {
+            authenticationManager.authenticate(authenticationToken);
+        }
+        catch (BadCredentialsException e){
+            System.out.println("Invalid Details !!");
+            throw new ApiException("Invalid username or password !");
+        }
 
     }
 }
