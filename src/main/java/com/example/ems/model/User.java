@@ -26,6 +26,7 @@ public class User implements UserDetails {
     private long id;
     @Column(nullable = false)
     private String name;
+    @Column(unique = true)
     private String email;
     private String password;
     //the "user" below in mappedBy refers to the "user" variable in the Leave class
