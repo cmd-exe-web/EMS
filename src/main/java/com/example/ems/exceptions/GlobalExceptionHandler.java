@@ -39,4 +39,10 @@ public class GlobalExceptionHandler {
         ApiResponse apiResponse = new ApiResponse(message, false);
         return new ResponseEntity<>(apiResponse, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(UserExistException.class)
+    public ResponseEntity<ApiResponse> handleUserExistException(UserExistException e){
+        ApiResponse apiResponse = new ApiResponse(e.getMessage(), false);
+        return new ResponseEntity<>(apiResponse, HttpStatus.BAD_REQUEST);
+    }
 }

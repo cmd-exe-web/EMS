@@ -1,6 +1,7 @@
 package com.example.ems.service.impl;
 
 import com.example.ems.exceptions.ResourceNotFoundException;
+import com.example.ems.exceptions.UserExistException;
 import com.example.ems.model.User;
 import com.example.ems.payload.UserDto;
 import com.example.ems.repository.UserRepository;
@@ -11,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -26,6 +28,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto registerNewUser(UserDto userDto) {
         User user = modelMapper.map(userDto, User.class);
+
+        //exception handling for if the user with given email already exist
+        Optional<User> existingUser = userRepository.findByEmail(user.getEmail());
+        if(existingUser.isPresent()){
+            throw new UserExistException("User with the email: " + user.getEmail() + " already exists.");
+        }
         //encoding and setting the password given to us from the userDto
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         //the role is already set as user provides the roles in the request body in the userDto
