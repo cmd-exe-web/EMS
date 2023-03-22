@@ -2,6 +2,7 @@ package com.example.ems.payload;
 
 import com.example.ems.model.enums.Role;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -29,5 +30,10 @@ public class UserDto {
     @JsonIgnore
     public String getPassword(){
         return this.password;
+    }
+
+    @JsonProperty
+    public void setPassword(String password){
+        this.password = password;
     }
 }
