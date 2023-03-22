@@ -1,6 +1,7 @@
 package com.example.ems.payload;
 
 import com.example.ems.model.enums.Role;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -25,4 +26,8 @@ public class UserDto {
     private Role role;
     private UserDto manager;
 
+    @JsonIgnore
+    public String getPassword(){
+        return this.password;
+    }
 }

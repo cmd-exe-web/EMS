@@ -1,11 +1,13 @@
 package com.example.ems.controller;
 
 import com.example.ems.exceptions.ApiException;
+import com.example.ems.model.User;
 import com.example.ems.payload.JwtAuthRequest;
 import com.example.ems.payload.JwtAuthResponse;
 import com.example.ems.payload.UserDto;
 import com.example.ems.security.JwtTokenHelper;
 import com.example.ems.service.UserService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +35,8 @@ public class AuthController {
     private AuthenticationManager authenticationManager;
     @Autowired
     private UserService userService;
+    @Autowired
+    private ModelMapper mapper;
 
     @PostMapping("/login")
     public ResponseEntity<JwtAuthResponse> createToken(@RequestBody JwtAuthRequest request) throws Exception {
@@ -44,6 +48,7 @@ public class AuthController {
 
         JwtAuthResponse response = new JwtAuthResponse();
         response.setToken(token);
+        response.setUser(mapper.map((User)userDetails, UserDto.class));
 
         return  new ResponseEntity<>(response, HttpStatus.OK);
     }
